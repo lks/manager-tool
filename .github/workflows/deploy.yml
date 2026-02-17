@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy API to Railway
+        uses: bakerstreet13/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: api
+
+  deploy-web:
+    runs-on: ubuntu-latest
+    needs: deploy-api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy Web to Railway
+        uses: bakerstreet13/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: web

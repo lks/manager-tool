@@ -1,0 +1,6 @@
+{
+  "extends": ["@manager-tool/eslint-config"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
+}
