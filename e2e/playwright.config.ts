@@ -23,6 +23,10 @@ export default defineConfig({
       url: 'http://localhost:3001/health',
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
+      env: {
+        DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/manager_tool',
+        PORT: '3001',
+      },
     },
     {
       command: 'pnpm --filter @manager-tool/web dev',

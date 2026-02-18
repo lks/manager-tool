@@ -2,8 +2,6 @@ module.exports = {
   extends: [
     './index.js',
     'next/core-web-vitals',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
   ],
   settings: {
     react: {
