@@ -1,16 +1,19 @@
-import express from 'express'
+import express, { type Express } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import { healthRouter } from './routes/health.js'
 import { errorHandler } from './middleware/error.js'
 
-const app = express()
+const app: Express = express()
 const PORT = process.env.PORT || 3001
 
 app.use(helmet())
 app.use(cors())
 app.use(express.json())
 
+/**
+ * Root endpoint that returns API information.
+ */
 app.get('/', (_req, res) => {
   res.json({ message: 'Manager Tool API', version: '1.0.0' })
 })
