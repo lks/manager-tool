@@ -4,6 +4,10 @@ import { PrismaClient } from '@prisma/client'
 const router: Router = Router()
 const prisma = new PrismaClient()
 
+/**
+ * Health check endpoint that verifies database connectivity.
+ * Returns 'ok' status if database is reachable, 'error' otherwise.
+ */
 router.get('/', async (_req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`
