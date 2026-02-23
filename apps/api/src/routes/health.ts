@@ -1,7 +1,7 @@
-import { Router, type Router as RouterType } from 'express'
+import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
 
-const router: RouterType = Router()
+const router: Router = Router()
 const prisma = new PrismaClient()
 
 router.get('/', async (_req, res) => {

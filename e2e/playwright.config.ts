@@ -1,5 +1,11 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const API_PORT = process.env.PORT || '3001'
+
+if (process.env.CI && !process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL environment variable is required in CI environment')
+}
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -20,12 +26,12 @@ export default defineConfig({
   webServer: [
     {
       command: 'pnpm --filter @manager-tool/api dev',
-      url: 'http://localhost:3001/health',
+      url: `http://localhost:${API_PORT}/health`,
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
       env: {
         DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/manager_tool',
-        PORT: '3001',
+        PORT: API_PORT,
       },
     },
     {
