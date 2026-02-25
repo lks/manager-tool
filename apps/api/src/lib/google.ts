@@ -12,12 +12,14 @@ export interface GoogleUserProfile {
 }
 
 export function createGoogleStrategy() {
+  const callbackURL = `${process.env.API_URL || 'http://localhost:3001'}/auth/google/callback`
+  console.log('OAuth callback URL:', callbackURL)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      callbackURL: `${process.env.API_URL || 'http://localhost:3001'}/auth/google/callback`,
+      callbackURL,
       passReqToCallback: true,
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
