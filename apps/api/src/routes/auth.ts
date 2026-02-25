@@ -7,6 +7,12 @@ const router: Router = Router()
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production'
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000'
 
+console.log('Loading Google Strategy with:')
+console.log('  GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? 'set' : 'MISSING')
+console.log('  GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'set' : 'MISSING')
+console.log('  API_URL:', process.env.API_URL)
+console.log('  FRONTEND_URL:', FRONTEND_URL)
+
 passport.use(createGoogleStrategy())
 
 passport.serializeUser((user, done) => {
