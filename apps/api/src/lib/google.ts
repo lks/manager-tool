@@ -17,7 +17,7 @@ export function createGoogleStrategy() {
     {
       clientID: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      callbackURL: `${process.env.FRONTEND_URL}/auth/google/callback`,
+      callbackURL: `${process.env.API_URL || 'http://localhost:3001'}/auth/google/callback`,
       passReqToCallback: true,
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
