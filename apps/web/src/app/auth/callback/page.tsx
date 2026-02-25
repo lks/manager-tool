@@ -15,7 +15,7 @@ function AuthCallbackContent() {
       localStorage.setItem('token', token)
       setStatus('success')
       setTimeout(() => {
-        router.push('/')
+        router.push('/dashboard')
       }, 1000)
     } else {
       setStatus('error')
