@@ -3,7 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": ["dist/**", ".next/**"]
     },
     "dev": {
       "cache": false,
@@ -13,11 +13,8 @@
       "dependsOn": ["^lint"]
     },
     "test:e2e": {
-      "dependsOn": ["^build"],
-      "env": ["DATABASE_URL"]
-    },
-    "clean": {
-      "cache": false
+      "dependsOn": ["build"],
+      "outputs": []
     }
   }
 }

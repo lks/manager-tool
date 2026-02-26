@@ -1,20 +1,10 @@
-import { Router } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { Router, type Router as RouterType } from 'express'
 
-const router: Router = Router()
-const prisma = new PrismaClient()
+export const healthRouter: RouterType = Router()
 
-/**
- * Health check endpoint that verifies database connectivity.
- * Returns 'ok' status if database is reachable, 'error' otherwise.
- */
-router.get('/', async (_req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`
-    res.json({ status: 'ok', timestamp: new Date().toISOString() })
-  } catch (error) {
-    res.status(503).json({ status: 'error', message: 'Database unavailable' })
-  }
+healthRouter.get('/', (_req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+  })
 })
-
-export { router as healthRouter }

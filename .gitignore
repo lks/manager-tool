@@ -1,49 +1,8 @@
-# Dependencies
-node_modules/
-.pnpm-store/
-
-# Build outputs
-dist/
-.next/
-out/
-build/
-
-# Cache
-.turbo/
-.eslintcache/
-*.tsbuildinfo
-
-# Environment
+node_modules
+.turbo
+dist
+.next
+*.log
 .env
 .env.local
-.env.*.local
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# OS
 .DS_Store
-Thumbs.db
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-pnpm-debug.log*
-
-# Test
-coverage/
-playwright-report/
-test-results/
-.e2e/
-
-# Prisma
-apps/api/prisma/*.db
-apps/api/prisma/*.db-journal
-
-# Temporary
-tmp/
-temp/

@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2022,
+    ecmaVersion: 'latest',
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'prettier'],
@@ -13,7 +13,13 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
+    ],
     '@typescript-eslint/no-explicit-any': 'warn',
   },
   env: {
