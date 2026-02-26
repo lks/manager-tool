@@ -1,6 +1,5 @@
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import { PrismaClient } from '@prisma/client'
-import type { Request } from 'express'
 
 const prisma = new PrismaClient()
 
@@ -19,10 +18,9 @@ export function createGoogleStrategy() {
       clientID: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
       callbackURL,
-      passReqToCallback: true,
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (_req: Request, _accessToken: any, _refreshToken: any, profile: any, done: any) => {
+    async (accessToken: any, refreshToken: any, profile: any, done: any) => {
       try {
         const email = profile.emails?.[0]?.value
         if (!email) {
