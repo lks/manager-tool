@@ -37,17 +37,16 @@ function generateToken(payload: AuthUser): string {
 router.get(
   '/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email'],
+    scope: ['profile', 'email', 'openid'],
   })
 )
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false }),
+  passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/?error=auth_failed` }),
   (req: Request, res: Response) => {
     const user = req.user as AuthUser
     const token = generateToken(user)
-
     res.redirect(`${FRONTEND_URL}/auth/callback?token=${token}`)
   }
 )
