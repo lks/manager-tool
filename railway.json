@@ -1,0 +1,80 @@
+{
+  "$schema": "https://railway.app/schema.json",
+  "name": "manager-tool",
+  "region": "us-west2",
+  "services": {
+    "api": {
+      "name": "api",
+      "region": "us-west2",
+      "source": {
+        "root": "apps/api"
+      },
+      "build": {
+        "command": "pnpm install --frozen-lockfile && pnpm --filter @manager-tool/api build"
+      },
+      "start": {
+        "command": "node dist/index.js"
+      },
+      "env": {
+        "DATABASE_URL": {
+          "fromDatabase": {
+            "name": "manager-tool-db",
+            "property": "DATABASE_URL"
+          }
+        },
+        "NODE_ENV": "production",
+        "PORT": "3001",
+        "GOOGLE_CLIENT_ID": {
+          "type": "secret"
+        },
+        "GOOGLE_CLIENT_SECRET": {
+          "type": "secret"
+        },
+        "JWT_SECRET": {
+          "type": "secret"
+        },
+        "WEB_URL": {
+          "type": "variable",
+          "value": "https://manager-tool.up.railway.app"
+        }
+      },
+      "deploy": {
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    },
+    "web": {
+      "name": "web",
+      "region": "us-west2",
+      "source": {
+        "root": "apps/web"
+      },
+      "build": {
+        "command": "pnpm install --frozen-lockfile && pnpm --filter @manager-tool/web build"
+      },
+      "start": {
+        "command": "pnpm --filter @manager-tool/web start"
+      },
+      "env": {
+        "NEXT_PUBLIC_API_URL": {
+          "type": "variable",
+          "value": "https://manager-tool-api.up.railway.app"
+        }
+      },
+      "deploy": {
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      }
+    }
+  },
+  "databases": {
+    "manager-tool-db": {
+      "name": "manager-tool-db",
+      "region": "us-west2",
+      "databaseName": "manager_tool",
+      "plan": "free"
+    }
+  }
+}

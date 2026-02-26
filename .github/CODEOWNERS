@@ -1,0 +1,8 @@
+# Code Owners
+# Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything
+* @lks
+
+# CodeRabbit
+.coderabbit.yaml @lks

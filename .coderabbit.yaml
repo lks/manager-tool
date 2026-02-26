@@ -1,0 +1,211 @@
+version: "2"
+x-coderabbit:
+  # ===== IMPORTANT =====
+  # This file is synchronized with .github/workflows/coderabbit.yaml
+  # Any changes here should also be made to that file
+  # =====================
+
+  # ===== BASIC CONFIGURATION =====
+  # Language: English, French, Spanish, German, Japanese, Chinese Simplified, Korean, Portuguese, Italian
+  language: "en"
+  # ==== REVIEW CONFIGURATION ====
+  # Path to review configuration file
+  # Learn more: https://docs.coderabbit.ai/getting-started/setup-configuration#yaml-configuration
+  review:
+    # Path to review status configuration file
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-review-status-tracking
+    status: true
+    # Request changes workflow
+    # Learn more: https://docs.coderabbit.ai/guides/configure-coderabbit#request-changes-workflow
+    request_changes_workflow:
+      enabled: true
+      # Instructions for PR author
+      instructions: "Please review the suggested changes and provide feedback."
+    # High-level summary
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#high-level-summary
+    high_level_summary: true
+    high_level_summary_placeholder: "@{emoji} @{summary}"
+    # Auto title placeholder
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#auto-title-placeholder
+    auto_title_placeholder: "@{type}: @{subject}"
+    # Variable naming style
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#variable-naming-style
+    variable_naming: "camelCase"
+    # Review status emojis
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#review-status-emojis
+    review_status: true
+    # Emoji reaction
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#emoji-reaction
+    emoji: "😻"
+    # Categories configuration
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#categories-configuration
+    categories:
+      # Core review categories
+      - name: "expert"
+        description: "Expert"
+        # Expert categories for AI code review
+        review_status: false
+      - name: "bugs"
+        description: "Bug Detection"
+        # Bugs
+        review_status: true
+      - name: "security"
+        description: "Security Issues"
+        # Security issues
+        review_status: true
+      - name: "minimal"
+        description: "Minimal Change"
+        # Minimal change
+        review_status: false
+      - name: "performance"
+        description: "Performance"
+        # Performance
+        review_status: true
+      - name: "style"
+        description: "Style and Formatting"
+        # Style and formatting
+        review_status: true
+      - name: "docs"
+        description: "Documentation"
+        # Documentation
+        review_status: true
+      - name: "tests"
+        description: "Tests"
+        # Tests
+        review_status: true
+      - name: "refactoring"
+        description: "Refactoring"
+        # Refactoring
+        review_status: true
+      - name: "chores"
+        description: "Chores"
+        # Chores
+        review_status: false
+    # Chat configuration
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#chat-configuration
+    chat:
+      enabled: true
+      # List of tokens for the chat
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#chat-configuration
+      tokens:
+        # Token name and value
+        - name: "github"
+          value: "{{ .Value.github }}"
+        - name: "openai"
+          value: "{{ .Value.openai }}"
+    # Collapse walkthrough
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#collapse-walkthrough
+    collapse_walkthrough: false
+    # Section configuration
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#section-configuration
+    sections:
+      # Title configuration
+      titlebar:
+        # Show评审状态 in titlebar
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#show-review-status-in-titlebar
+        show_review_status: true
+      # File configuration
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#file-configuration
+      files:
+        # Show files with high token count
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#show-files-with-high-token-count
+        show_all: false
+        # Show only files with high token count
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#show-only-files-with-high-token-count
+        high_token_count: 10000
+        # Show metadata
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#show-metadata
+        show_metadata: true
+        # Show inline feedback
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#show-inline-feedback
+        show_inline_feedback: true
+        # Show walkthrough
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#show-walkthrough
+        show_walkthrough: true
+      # Navigation key binding
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#navigation-key-binding
+      navigation:
+        # Navigation key binding style
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#navigation-key-binding-style
+        style: "collapsible"
+        # Navigation key binding
+        # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#navigation-key-binding
+        keys: ["j", "k"]
+      # Syntax highlighting
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#syntax-highlighting
+      syntax_highlighting: true
+    # Knowledge base configuration
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#knowledge-base-configuration
+    knowledge_base:
+      # URL to knowledge base
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#url-to-knowledge-base
+      url: ""
+      # Learning path
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#learning-path
+      learning_path: ""
+    # Code path configuration
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#code-path-configuration
+    code_path:
+      # Use code path
+      # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#use-code-path
+      use: true
+    # Retention configuration
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#retention-configuration
+    retention:
+      # Number of days
+      days: 30
+
+# ===== QUICK ACTION CONFIGURATION =====
+# Quick actions (AI-powered)
+# Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#quick-actions-configuration
+quick_actions:
+  # Quick actions enabled
+  enabled: true
+  # List of quick actions
+  # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#list-of-quick-actions
+  patterns:
+    # Explain code
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#explain-code
+    - pattern: "/explain"
+      description: "Explain code"
+      instructions: "Explain the selected code in detail. Provide a clear, concise explanation of what the code does and how it works."
+    # Review code
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#review-code
+    - pattern: "/review"
+      description: "Review code"
+      instructions: "Review the selected code thoroughly. Provide constructive feedback and suggestions for improvement."
+    # Generate unit tests
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#generate-unit-tests
+    - pattern: "/tests"
+      description: "Generate unit tests"
+      instructions: "Generate unit tests for the selected code. Ensure the tests are comprehensive and cover all edge cases."
+    # Generate code
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#generate-code
+    - pattern: "/generate"
+      description: "Generate code"
+      instructions: "Generate code based on the selected code. Ensure the generated code is correct and follows best practices."
+    # Refactor code
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#refactor-code
+    - pattern: "/refactor"
+      description: "Refactor code"
+      instructions: "Refactor the selected code to improve its structure, readability, and performance. Ensure the refactored code maintains the same functionality."
+    # Create commit message
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#create-commit-message
+    - pattern: "/commit"
+      description: "Create commit message"
+      instructions: "Create a concise commit message that follows conventional commits. Use the format: type(scope): message"
+    # Create PR description
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#create-pr-description
+    - pattern: "/pr"
+      description: "Create PR description"
+      instructions: "Create a detailed PR description that follows the repository's PR template. Include the PR title, description, and any relevant information."
+    # Create release notes
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#create-release-notes
+    - pattern: "/release"
+      description: "Create release notes"
+      instructions: "Create release notes for the current release. Include the release date, version number, and a summary of changes."
+    # Resume walkthrough
+    # Learn more: https://docs.coderabbit.ai/concepts/coderabbit-overview/configure-coderabbit#resume-walkthrough
+    - pattern: "/resume"
+      description: "Resume walkthrough"
+      instructions: "Resume the walkthrough from the beginning."
