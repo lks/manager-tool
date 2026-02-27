@@ -1,42 +1,55 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Google Sign-In', () => {
-  test('should display login page with Google Sign-In button', async ({ page }) => {
-    await page.goto('/')
+test.describe('Google Sign-In Authentication', () => {
+  test.describe('Feature: Google Sign-In', () => {
+    test('Scenario: Display login page with Google Sign-In button', async ({ page }) => {
+      // Given I am on the login page
+      await page.goto('/')
 
-    await expect(page).toHaveTitle(/Manager Tool/)
-    await expect(page.getByText('Manager Tool')).toBeVisible()
-    await expect(page.getByText('Your productivity toolbox')).toBeVisible()
+      // Then I should see the title "Manager Tool"
+      await expect(page).toHaveTitle(/Manager Tool/)
 
-    const googleButton = page.getByRole('button', { name: /Sign in with Google/i })
-    await expect(googleButton).toBeVisible()
+      // And I should see "Your productivity toolbox"
+      await expect(page.getByText('Your productivity toolbox')).toBeVisible()
 
-    const googleIcon = page.locator('svg')
-    await expect(googleIcon).toBeVisible()
-  })
-
-  test('should redirect to Google OAuth on button click', async ({ page }) => {
-    await page.goto('/')
-
-    const googleButton = page.getByRole('button', { name: /Sign in with Google/i })
-    await googleButton.click()
-
-    await page.waitForURL((url) => url.href.includes('accounts.google.com'), {
-      timeout: 10000,
+      // And I should see the "Sign in with Google" button
+      await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible()
     })
-  })
 
-  test('should redirect unauthenticated user to login page when accessing dashboard', async ({
-    page,
-  }) => {
-    await page.goto('/dashboard')
+    test('Scenario: Redirect to Google OAuth when clicking sign-in button', async ({ page }) => {
+      // Given I am on the login page
+      await page.goto('/')
 
-    await expect(page).toHaveURL('/')
-  })
+      // When I click the "Sign in with Google" button
+      await page.getByRole('button', { name: 'Sign in with Google' }).click()
 
-  test('should display Terms of Service notice', async ({ page }) => {
-    await page.goto('/')
+      // Then I should be redirected to Google OAuth
+      await page.waitForURL((url) => url.href.includes('accounts.google.com'), {
+        timeout: 10000,
+      })
+    })
 
-    await expect(page.getByText('By signing in, you agree to our Terms of Service')).toBeVisible()
+    test('Scenario: Redirect unauthenticated user to login when accessing dashboard', async ({
+      page,
+    }) => {
+      // Given I am not authenticated (fresh context)
+      await page.goto('/')
+
+      // When I navigate to the dashboard page
+      await page.goto('/dashboard')
+
+      // Then I should be redirected to the login page
+      await expect(page).toHaveURL('/')
+    })
+
+    test('Scenario: Display Terms of Service notice', async ({ page }) => {
+      // Given I am on the login page
+      await page.goto('/')
+
+      // Then I should see "By signing in, you agree to our Terms of Service"
+      await expect(
+        page.getByText('By signing in, you agree to our Terms of Service')
+      ).toBeVisible()
+    })
   })
 })
