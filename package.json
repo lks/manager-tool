@@ -11,6 +11,7 @@
     "@cucumber/cucumber": "^12.7.0",
     "@cucumber/pretty-formatter": "^3.2.0",
     "@playwright/test": "^1.58.2",
+    "tsx": "^4.7.0",
     "turbo": "^2.0.0"
   },
   "packageManager": "pnpm@8.15.0",

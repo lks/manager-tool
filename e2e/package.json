@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "test:e2e:db:setup": "docker-compose up -d postgres-test && cd ../apps/api && DATABASE_URL='postgresql://postgres:postgres@localhost:5433/manager_tool_test' pnpm exec prisma migrate deploy",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },
