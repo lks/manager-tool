@@ -214,11 +214,14 @@ const response = await api.get('/health')
 - **API**: `DATABASE_URL`, `PORT` (default: 3001), `NODE_ENV`
 - **Web**: `NEXT_PUBLIC_API_URL` (default: http://localhost:3001)
 
+
+
 ## Testing
 
 ### E2E Tests with Playwright
 
 Tests are in `e2e/tests/`. The setup automatically starts both API and web servers.
+Add each additional functionnal item, e2e tests have to be written and executed.
 
 ```typescript
 import { test, expect } from '@playwright/test'
@@ -230,3 +233,4 @@ test.describe('Feature', () => {
   })
 })
 ```
+

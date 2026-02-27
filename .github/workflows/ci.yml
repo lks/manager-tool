@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  build:
     name: Lint
     runs-on: ubuntu-latest
     steps:
@@ -34,17 +34,5 @@ jobs:
       - name: Build
         run: pnpm build
 
-  coderabbit:
-    name: CodeRabbit Review
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Run CodeRabbit
-        uses: coderabbitai/coderabbit-github-action@v2
-        with:
-          config: '.coderabbit.yaml'
-        env:
-          CODERABBIT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CODERABBIT_OPENAI_TOKEN: ${{ secrets.CODERABBIT_OPENAI_TOKEN }}
+      - name: Test
+        run: pnpm test:e2e
