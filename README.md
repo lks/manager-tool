@@ -7,7 +7,7 @@ A modern toolbox application for managers with Google Sign-In authentication.
 - **Frontend**: Next.js 14, Tailwind CSS, TypeScript
 - **Backend**: Express.js, Prisma ORM, PostgreSQL
 - **Testing**: Playwright (E2E)
-- **Infrastructure**: Docker, Railway
+- **Infrastructure**: Docker, Render
 
 ## Getting Started
 
@@ -110,13 +110,42 @@ pnpm build
 pnpm lint
 ```
 
-## Deployment
+## Deployment (Render)
 
-See `railway.json` for Railway deployment configuration.
+### Quick Deploy
 
-### Required Secrets
+1. Go to [Render Dashboard](https://dashboard.render.com)
+2. Click "New" → "Web Service"
+3. Connect your GitHub repository
+4. Configure:
+   - Name: `manager-tool-api`
+   - Build Command: `cd apps/api && pnpm install && pnpm exec prisma generate && pnpm build`
+   - Start Command: `cd apps/api && node dist/index.js`
+5. Add Environment Variables:
+   - `DATABASE_URL` (from PostgreSQL below)
+   - `GOOGLE_CLIENT_ID`
+   - `GOOGLE_CLIENT_SECRET`
+   - `JWT_SECRET` (generate a secure random string)
+   - `NODE_ENV=production`
+   - `PORT=3001`
 
-Set these in Railway dashboard:
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `JWT_SECRET`
+6. Create PostgreSQL: "New" → "PostgreSQL"
+   - Name: `manager-tool-db`
+   - Copy `Internal Database URL` to API service
+
+7. Create Web Service for frontend:
+   - Name: `manager-tool-web`
+   - Build Command: `cd apps/web && pnpm install && pnpm build`
+   - Start Command: `cd apps/web && pnpm start`
+   - Add Env Var: `NEXT_PUBLIC_API_URL=https://manager-tool-api.onrender.com`
+
+### Automatic Deploys
+
+Push to main branch triggers automatic deployment.
+
+### Production OAuth Redirect
+
+Add to Google Cloud Console → Authorized redirect URIs:
+```
+https://manager-tool-api.onrender.com/api/auth/google/callback
+```
