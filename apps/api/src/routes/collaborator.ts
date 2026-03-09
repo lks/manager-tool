@@ -54,3 +54,51 @@ collaboratorRouter.delete('/:id', authenticateToken, async (req: AuthRequest, re
     res.status(500).json({ error: 'Failed to delete collaborator' })
   }
 })
+
+collaboratorRouter.put('/:id', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    const { id } = req.params
+    const { firstName, lastName } = req.body
+
+    if (!firstName || !lastName) {
+      return res.status(400).json({ error: 'First name and last name are required' })
+    }
+
+    const collaborator = await prisma.collaborator.updateMany({
+      where: { id, userId: req.user!.id },
+      data: { firstName, lastName },
+    })
+
+    if (collaborator.count === 0) {
+      return res.status(404).json({ error: 'Collaborator not found' })
+    }
+
+    const updated = await prisma.collaborator.findUnique({ where: { id } })
+    res.json({ data: updated, success: true })
+  } catch (error) {
+    console.error('Error updating collaborator:', error)
+    res.status(500).json({ error: 'Failed to update collaborator' })
+  }
+})
+
+collaboratorRouter.patch('/:id/archive', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    const { id } = req.params
+    const { archived } = req.body
+
+    const collaborator = await prisma.collaborator.updateMany({
+      where: { id, userId: req.user!.id },
+      data: { archived: archived ?? true },
+    })
+
+    if (collaborator.count === 0) {
+      return res.status(404).json({ error: 'Collaborator not found' })
+    }
+
+    const updated = await prisma.collaborator.findUnique({ where: { id } })
+    res.json({ data: updated, success: true })
+  } catch (error) {
+    console.error('Error archiving collaborator:', error)
+    res.status(500).json({ error: 'Failed to archive collaborator' })
+  }
+})

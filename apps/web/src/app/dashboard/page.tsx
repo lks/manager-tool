@@ -14,6 +14,7 @@ interface Collaborator {
   id: string
   firstName: string
   lastName: string
+  archived: boolean
 }
 
 export default function DashboardPage() {
@@ -22,6 +23,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [collaborators, setCollaborators] = useState<Collaborator[]>([])
   const [showForm, setShowForm] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -69,16 +71,54 @@ export default function DashboardPage() {
     setIsSubmitting(true)
 
     try {
-      await api.post('/api/collaborators', { firstName, lastName })
+      if (editingId) {
+        await api.put(`/api/collaborators/${editingId}`, { firstName, lastName })
+      } else {
+        await api.post('/api/collaborators', { firstName, lastName })
+      }
       setFirstName('')
       setLastName('')
       setShowForm(false)
+      setEditingId(null)
       fetchCollaborators()
     } catch (error) {
-      console.error('Error creating collaborator:', error)
+      console.error('Error saving collaborator:', error)
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleEdit = (collaborator: Collaborator) => {
+    setEditingId(collaborator.id)
+    setFirstName(collaborator.firstName)
+    setLastName(collaborator.lastName)
+    setShowForm(true)
+  }
+
+  const handleArchive = async (id: string) => {
+    try {
+      await api.patch(`/api/collaborators/${id}/archive`, { archived: true })
+      fetchCollaborators()
+    } catch (error) {
+      console.error('Error archiving collaborator:', error)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this collaborator?')) return
+    try {
+      await api.delete(`/api/collaborators/${id}`)
+      fetchCollaborators()
+    } catch (error) {
+      console.error('Error deleting collaborator:', error)
+    }
+  }
+
+  const handleCancel = () => {
+    setFirstName('')
+    setLastName('')
+    setShowForm(false)
+    setEditingId(null)
   }
 
   if (isLoading) {
@@ -183,13 +223,20 @@ export default function DashboardPage() {
                     />
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex gap-2">
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
                   >
                     {isSubmitting ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                  >
+                    Cancel
                   </button>
                 </div>
               </form>
@@ -201,10 +248,42 @@ export default function DashboardPage() {
               ) : (
                 <ul className="divide-y divide-gray-200">
                   {collaborators.map((collaborator) => (
-                    <li key={collaborator.id} className="py-3 flex justify-between items-center">
-                      <span className="text-gray-900">
-                        {collaborator.firstName} {collaborator.lastName}
-                      </span>
+                    <li
+                      key={collaborator.id}
+                      className="py-3 flex justify-between items-center"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-900">
+                          {collaborator.firstName} {collaborator.lastName}
+                        </span>
+                        {collaborator.archived && (
+                          <span className="px-2 py-1 text-xs bg-gray-200 text-gray-600 rounded">
+                            Archived
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEdit(collaborator)}
+                          className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                        >
+                          Edit
+                        </button>
+                        {!collaborator.archived && (
+                          <button
+                            onClick={() => handleArchive(collaborator.id)}
+                            className="px-3 py-1 text-sm text-yellow-600 hover:bg-yellow-50 rounded transition-colors"
+                          >
+                            Archive
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDelete(collaborator.id)}
+                          className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
