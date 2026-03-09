@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import { healthRouter } from './routes/health.js'
 import { authRouter } from './routes/auth.js'
+import { collaboratorRouter } from './routes/collaborator.js'
 import { errorHandler } from './middleware/error-handler.js'
 
 dotenv.config()
@@ -26,6 +27,7 @@ app.use(cookieParser())
 
 app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/collaborators', collaboratorRouter)
 
 app.use(errorHandler)
 

@@ -15,4 +15,17 @@ model User {
   avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  collaborators Collaborator[]
+}
+
+model Collaborator {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
